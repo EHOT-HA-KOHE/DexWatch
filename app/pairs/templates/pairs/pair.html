@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static "deps/css/pairs/pairs.css" %}">
+{% endblock %}
+
+
+{% block content %}
+
+    <div>
+        <div class="container mt-4">
+            <div class="card text-bg-dark">
+                <div class="card-header">
+                    Liquidity Pair Details
+                </div>
+                <div class="card-body">
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">CHAIN:</div>
+                            <div class="col-md-8 info-value">{{ pool.blockchain.name }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">DEX:</div>
+                            <div class="col-md-8 info-value">{{ pool.dex_name.name }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">Address:</div>
+                            <div class="col-md-8 info-value">{{ pool.address }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">Token 1:</div>
+                            <div class="col-md-8 info-value">{{ pool.token_1.name }} ({{ pool.token_1.symbol }})</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">Token 2:</div>
+                            <div class="col-md-8 info-value">{{ pool.token_2.name }} ({{ pool.token_2.symbol }})</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">Price (USD):</div>
+                            <div class="col-md-8 info-value">${{ pool.usd_price }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">Volume:</div>
+                            <div class="col-md-8 info-value">${{ pool.volume }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">Liquidity:</div>
+                            <div class="col-md-8 info-value">${{ pool.liquidity }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">Market Cap:</div>
+                            <div class="col-md-8 info-value">${{ pool.mcap }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">Transactions:</div>
+                            <div class="col-md-8 info-value">{{ pool.transactions }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">Makers:</div>
+                            <div class="col-md-8 info-value">{{ pool.makers }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">5 Min Price Change:</div>
+                            <div class="col-md-8 info-value">{{ pool.price_change_5m }}%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">1 Hour Price Change:</div>
+                            <div class="col-md-8 info-value">{{ pool.price_change_1h }}%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">6 Hour Price Change:</div>
+                            <div class="col-md-8 info-value">{{ pool.price_change_6h }}%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">24 Hour Price Change:</div>
+                            <div class="col-md-8 info-value">{{ pool.price_change_24h }}%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="row">
+                            <div class="col-md-4 info-label">Age:</div>
+                            <div class="col-md-8 info-value">{{ pool.age_formatted }}</div>
+                        </div>
+                    </div>
+                    
+                    {% comment %} <a href="{% url 'pairs:pair_list' %}" class="btn btn-primary mt-3">Back to List</a> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+{% endblock %}

@@ -1,3 +1,11 @@
+.history
+app/.history/
+app/.venv/
+app/db.sqlite3
+app/drafts
+app/.vscode
+app/pairs/draft.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

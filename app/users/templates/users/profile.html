@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+
+    <link href="{% static 'deps/css/users/profile.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<h1>User Profile</h1>
+<h2>Hello, {{ user.username }}</h2>
+
+{% endblock content %}
