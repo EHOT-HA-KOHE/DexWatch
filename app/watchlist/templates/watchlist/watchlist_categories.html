@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+
+    <link rel="stylesheet" href="{% static "deps/css/main/index.css" %}">
+    <link rel="stylesheet" href="{% static "deps/css/watchlist/categories.css" %}">
+
+{% endblock css %}
+
+
+
+{% block content %}
+
+    <h1>{{ title }}</h1>
+
+    <!-- Список текущих категорий -->
+     <div id="include-list-categories-place">
+        {% include "watchlist/_categories_list.html" %}
+     </div>
+
+    <!-- Форма для создания новой категории -->
+    <form id="category-form" class="search-input" role="search" action="{% url "watchlist:create_category" %}" method="post">
+        {% csrf_token %}
+        <input class="form-control me-2 custom-input" type="search" name="category_name" id="category-name" placeholder="Create New" aria-label="Search">
+        <button type="button" id="create-category-btn">Создать</button>
+    </form>
+
+{% endblock content %}

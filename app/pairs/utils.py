@@ -1,43 +1,48 @@
-from pairs.models import Tokens, Pools, TokenPools, DexNames, Blockchains
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, SearchHeadline
+
+from pairs.models import Pools
 
 
-# 1. Создаем или находим токен
-token_1, created = Tokens.objects.get_or_create(
-    token_address='0xTokenAddress1',
-    defaults={'token_name': 'Token1', 'token_symbol': 'TKN1'}
-)
+def q_search(query):
+    if query.isdigit() and len(query) <= 5:
+        return Pools.objects.filter(
+            id=int(query)
+        )  # Используем filter а не get тк нужно получить QuerySet
 
-token_2, created = Tokens.objects.get_or_create(
-    token_address='0xTokenAddress2',
-    defaults={'token_name': 'Token2', 'token_symbol': 'TKN2'}
-)
+    # vector = SearchVector("address", "token_1__name")
+    # query = SearchQuery(query)
 
-# 2. Находим или создаем блокчейн
-blockchain, created = Blockchains.objects.get_or_create(
-    name='Ethereum'
-)
+    # result = (
+    #     Pools.objects.annotate(rank=SearchRank(vector, query))
+    #     .order_by("-rank")
+    #     .filter(rank__gt=0)
+    # )
 
-# 3. Находим или создаем DEX
-dex, created = DexNames.objects.get_or_create(
-    name='Uniswap',
-    blockchain=blockchain
-)
+    # result = result.annotate(
+    #     headline=SearchHeadline(
+    #         'address', 
+    #         query, 
+    #         start_sel='<span style="background-color: yellow;">',
+    #         stop_sel='</span>',
+    #     )
+    # )
 
-# 4. Создаем или находим пул ликвидности
-pool, created = Pools.objects.get_or_create(
-    pool_address='0xPoolAddress',
-    token_1_id=token_1,
-    token_2_id=token_2,
-    dex_name=dex
-)
+    # result = result.annotate(
+    #     bodyline=SearchHeadline(
+    #         'token_1__name', 
+    #         query, 
+    #         start_sel='<span style="background-color: yellow;">',
+    #         stop_sel='</span>',
+    #     )
+    # )
 
-# 5. Связываем токен с пулом в token_pools
-token_pool_1, created = TokenPools.objects.get_or_create(
-    token_id=token_1,
-    pool_id=pool
-)
+    # Используем LIKE для поиска по тексту
+    result = (
+        Pools.objects.filter(
+            address__icontains=query
+        ) | Pools.objects.filter(
+            token_1__name__icontains=query
+        )
+    ).distinct()
 
-token_pool_2, created = TokenPools.objects.get_or_create(
-    token_id=token_2,
-    pool_id=pool
-)
+    return result

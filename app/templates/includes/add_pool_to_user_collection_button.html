@@ -1,0 +1,51 @@
+{% load static %}
+{% load watchlist_tags %}
+{% user_collections as collections %}
+
+<br>
+<div>
+    <button type="button" class="btn btn-dark btn-secondary" id="modalButton"
+        aria-expanded="false">
+        <span id="goods-in-cart-count">Сохранить в подборку</span>
+    </button>
+</div>
+<!-- Разметка модального окна корзины -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                В какую подборку добавить пул?
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% comment %} <h3 class="text-center mb-4">В какую подборку добавить пул?</h3> {% endcomment %}
+                <div class="container" id="cart-items-container">
+
+                    <!-- Список текущих категорий -->
+                     
+                    <div class="d-flex flex-column">
+                        {% for collection in collections %}
+                    
+                            <a href="{% url "watchlist:add_to_category" %}" class="btn btn-dark btn-secondary add-to-user-collection"
+                            data-collection="{{ collection.name }}" data-address="{{ pool.address }}">
+                                {% csrf_token %}
+                                {{ collection.name }} ({{ collection|len_of_collection }})
+                            </a>
+                        {% endfor %}
+                    </div>
+
+                        {% comment %} <div id="tile-container" class="tile-container">
+                            {% for category in collections %}
+                                <a href="{% url "watchlist:category_pools" category.name %}" class="tile">
+                                    <div>{{ category.name }} ({{ category|len_of_collection }})</div>
+                                </a>
+                            {% endfor %}
+                        </div> {% endcomment %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

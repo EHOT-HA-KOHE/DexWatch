@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'new_pairs',
     'pairs',
     'users',
+    'watchlist',
 ]
 
 MIDDLEWARE = [

@@ -1,9 +1,10 @@
 from django.urls import path
 
-from pairs.views import PairView
+from pairs import views
 
 app_name = 'pairs'
 
 urlpatterns = [
-    path('<str:chain>/<str:pair_address>/', PairView.as_view(), name='pair_address')
+    path('<search/', views.SearchView.as_view(), name='search'),
+    path('<str:chain>/<str:pair_address>/', views.PairView.as_view(), name='pair_address'),
 ]

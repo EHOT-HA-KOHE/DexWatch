@@ -4,6 +4,7 @@
 
 {% block css %}
     <link rel="stylesheet" href="{% static "deps/css/pairs/pairs.css" %}">
+    <link rel="stylesheet" href="{% static "deps/css/main/index.css" %}">
 {% endblock %}
 
 
@@ -128,11 +129,19 @@
                         </div>
                     </div>
                     
-                    {% comment %} <a href="{% url 'pairs:pair_list' %}" class="btn btn-primary mt-3">Back to List</a> {% endcomment %}
                 </div>
             </div>
         </div>
     
     </div>
+
+    {% comment %} <a href="{% url "watchlist:add_to_category" %}" class="btn btn-dark btn-primary add-to-user-collection"
+            data-collection="Favorites" data-address="{{ pool.address }}">
+            {% csrf_token %}
+            Добавить в Favorites
+    </a> {% endcomment %}
+
+    {% include "includes/add_pool_to_user_collection_button.html" %}
+    
 
 {% endblock %}

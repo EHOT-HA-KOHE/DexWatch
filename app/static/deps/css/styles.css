@@ -70,7 +70,6 @@ body {
 /* Стили для бокового меню */
 .sidebar {
     width: 200px;
-    /* width: 15%; */
     height: 100vh;
     position: fixed;
     left: 0;
@@ -84,43 +83,46 @@ body {
 
 .nav {
     flex: 1; /* Заполняет доступное пространство, оставляя место для кнопки Login внизу */
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    width: 100%;
 }
 
 .nav-item {
-    padding-right: 50%;
-    margin-left: 10%;
+    width: 80%;
     margin-bottom: 0;
-}
-
-.nav-item:hover {
-    border-radius: 5%;
-    border: 1px solid #333333;
-    /* Цвет и стиль рамки */
-    /* border-color: red; */
+    margin-left: 5%;
 }
 
 .bi-bar-chart,
 .bi-heart,
 .bi-person,
 .bi-info-square {
-    margin-right: 20%;
+    padding-right: 10%;
 }
 
 /* Стили для ссылок меню */
-.sidebar .nav-link {
-    background-color: initial;
-    /* Устанавливает начальное значение фона */
-
+.nav-link {
+    background-color: transparent;
     color: white;
     padding: 10px;
     white-space: nowrap;
     width: 100%;
-    display: flex;
+    height: 100%;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    justify-content: center;
     align-items: center;
 }
 
-
-
+.nav-link:hover,
+.nav-link:focus {
+    color: #0d6efd;
+    background-color: #333; /* Цвет фона при наведении или фокусе */
+    border-radius: 5px; /* Скругление углов при наведении или фокусе */
+}
 
 
 
@@ -185,4 +187,22 @@ body {
 main.content {
     margin: 10px 10px 10px 220px;
     padding: 20px;
+}
+
+
+
+/* ================== */
+/* Стили модального окна резултатов поиска */
+
+.list-group-item {
+    color: white;
+    background-color: #333333;
+}
+
+.text-muted {
+    color: white !important; 
+}
+
+.custom-modal-dialog {
+    max-width: 60%;
 }

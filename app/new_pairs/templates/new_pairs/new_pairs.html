@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{% load new_pairs_tags %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static "deps/css/new_pairs/new_pairs.css" %}">
@@ -10,23 +9,23 @@
 
 <div>
     <div class="tile-container">
-        <a class="chain-buttons" href="{% url "new-pairs:chain" "all" %}">
-            <div class="tile">ALL</div>
+        <a class="chain-buttons tile" href="{% url "new-pairs:chain" "all" %}">
+            <div>ALL</div>
         </a>
-        <a class="chain-buttons" href="{% url "new-pairs:chain" "ethereum" %}">
-            <div class="tile">ETHEREUM</div>
+        <a class="chain-buttons tile" href="{% url "new-pairs:chain" "ethereum" %}">
+            <div>ETHEREUM</div>
         </a>
-        <a class="chain-buttons" href="{% url "new-pairs:chain" "base" %}">
-            <div class="tile">BASE</div>
+        <a class="chain-buttons tile" href="{% url "new-pairs:chain" "base" %}">
+            <div>BASE</div>
         </a>
-        <a class="chain-buttons" href="{% url "new-pairs:chain" "solana" %}">
-            <div class="tile">SOLANA</div>
+        <a class="chain-buttons tile" href="{% url "new-pairs:chain" "solana" %}">
+            <div>SOLANA</div>
         </a>
-        <a class="chain-buttons" href="{% url "new-pairs:chain" "ton" %}">
-            <div class="tile">TON</div>
+        <a class="chain-buttons tile" href="{% url "new-pairs:chain" "ton" %}">
+            <div>TON</div>
         </a>
-        <a class="chain-buttons" href="{% url "new-pairs:chain" "bsc" %}">
-            <div class="tile">BSC</div>
+        <a class="chain-buttons tile" href="{% url "new-pairs:chain" "bsc" %}">
+            <div>BSC</div>
         </a>
     </div>
 </div>
@@ -35,81 +34,7 @@
 <h1 class="welcome-textt">Welcome to New Pairs for <span style="color: #0d6efd;">{{ content }}</span> chain</h1>
 
 
-<body>
-    <div class="container-fluid table-wrapper">
-        <div class="table-responsive">
-            <table class="table table-dark table-bordered table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>CHAIN</th>
-                        <th>NAME (SYM)</th>
-                        <th>USD</th>
-                        <th>AGE</th>
-                        <th>TRANS</th>
-                        <th>VOLUME</th>
-                        <th>MAKERS</th>
-                        <th>5M</th>
-                        <th>1H</th>
-                        <th>6H</th>
-                        <th>24H</th>
-                        <th>LIQUIDITY</th>
-                        <th>MCAP</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for pool in pools %}                        
-                        <tr class="clickable-row" data-href="{% url 'pairs:pair_address' chain=pool.dex_name.blockchain.name pair_address=pool.address %}">
-                            
-                            <td class="chain-icon">
-                                {% if pool.dex_name.blockchain.name == "solana" %}
-                                    <img class="chain-icon" src="{% static "deps/icons/solana.svg" %}" alt="solana-icon">
-                                {% elif pool.dex_name.blockchain.name == "ethereum" %}
-                                    <img class="chain-icon" src="{% static "deps/icons/ethereum.svg" %}" alt="ethereum-icon">
-                                {% elif pool.dex_name.blockchain.name == "bsc" %}
-                                    <img class="chain-icon" src="{% static "deps/icons/bsc.svg" %}" alt="bsc-icon">
-                                {% elif pool.dex_name.blockchain.name == "ton" %}
-                                    <img class="chain-icon" src="{% static "deps/icons/ton.webp" %}" alt="ton-icon">
-                                {% elif pool.dex_name.blockchain.name == "base" %}
-                                    <img class="chain-icon" src="{% static "deps/icons/base.svg" %}" alt="base-icon">
-                                {% endif %}
-                            </td>
-                            <td>{{ pool.token_1.name }} ({{ pool.token_1.symbol }})</td>
-                            <td>${{ pool.usd_price }}</td>
-                            <td>{{ pool.age_formatted }}</td>
-                            <td>{{ pool.transactions }}</td>
-                            <td>${{ pool.volume|format_number }}</td>
-                            <td>{{ pool.makers }}</td>
 
-                            <td class="{% if pool.price_change_5m > 0 %}positive{% elif pool.price_change_5m < 0 %}negative{% endif %}">
-                                {{ pool.price_change_5m }}%
-                            </td>
-                            <td class="{% if pool.price_change_1h > 0 %}positive{% elif pool.price_change_1h < 0 %}negative{% endif %}">
-                                {{ pool.price_change_1h }}%
-                            </td>
-                            <td class="{% if pool.price_change_6h > 0 %}positive{% elif pool.price_change_6h < 0 %}negative{% endif %}">
-                                {{ pool.price_change_6h }}%
-                            </td>
-                            <td class="{% if pool.price_change_24h > 0 %}positive{% elif pool.price_change_24h < 0 %}negative{% endif %}">
-                                {{ pool.price_change_24h }}%
-                            </td>
-                            
-                            <td>${{ pool.liquidity|format_number }}</td>
-
-                            <td>${{ pool.mcap|format_number }}</td>
-                            
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-    
-    <script>
-        document.querySelectorAll('.clickable-row').forEach(row => {
-            row.addEventListener('click', function () {
-                window.location.href = this.getAttribute('data-href');
-            });
-        });
-    </script>
+{% include "includes/table_with_tokens.html" %}
 
 {% endblock %}

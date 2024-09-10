@@ -25,4 +25,5 @@ urlpatterns = [
     path('new-pairs/', include('new_pairs.urls', namespace='new-pairs')),
     path('pair/', include('pairs.urls', namespace='pair')),
     path('user/', include('users.urls', namespace='user')),
+    path('watchlist/', include('watchlist.urls', namespace='watchlist')),
 ]

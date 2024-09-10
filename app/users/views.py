@@ -8,6 +8,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, TemplateView
 
 from users.forms import UserRegistrationForm, UserLoginForm
+from watchlist.models import PoolList
 
 
 class UserLoginView(LoginView):
@@ -37,8 +38,10 @@ class UserRegistrationView(CreateView):
     def form_valid(self, form):
         user = form.instance
         if user:
-            user.save()
+            form.save()
             auth.login(self.request, user)
+
+            PoolList.objects.create(name='Favorites', user=user)
 
             messages.success(self.request, f'{user.username}, Вы успешно зарегистрированы и вошли в аккаунт')
             return HttpResponseRedirect(self.success_url)
