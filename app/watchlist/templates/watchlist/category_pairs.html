@@ -7,16 +7,11 @@
 
 {% block content %}
 
-<div>
-    <div class="tile-container">
-        <a class="chain-buttons tile" href="{% url "new-pairs:chain" "all" %}">
-            <div>ALL</div>
-        </a>
-    </div>
-</div>
+
+{% include "includes/all_chains_buttons.html" %}
 
 
-<h1 class="welcome-textt">Welcome to Pairs in your <span style="color: #0d6efd;">{{ content }}</span> collection</h1>
+<h1 class="welcome-textt">Welcome to Pairs in your <span style="color: #0d6efd;">{{ category_name }}</span> collection</h1>
 
 {% include "includes/table_with_tokens.html" %}
 

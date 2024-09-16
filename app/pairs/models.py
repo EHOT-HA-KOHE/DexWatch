@@ -14,7 +14,8 @@ class Blockchains(models.Model):
 
 class DexNames(models.Model):
     name = models.CharField(max_length=150, unique=True, verbose_name="DEX")
-    address = models.CharField(max_length=150, unique=True, verbose_name="Адрес")
+    address = models.CharField(max_length=150, unique=True, verbose_name="Адрес контракта")
+    # contract_address = models.CharField(max_length=150, unique=True, verbose_name="Адрес контракта")
     blockchain = models.ForeignKey(
         to=Blockchains, on_delete=models.DO_NOTHING, verbose_name="Сеть"
     )
@@ -41,26 +42,30 @@ class Tokens(models.Model):
 
 class Pools(models.Model):
     address = models.CharField(max_length=150, unique=True, verbose_name="Адрес")
-    usd_price = models.DecimalField(max_digits=13, decimal_places=10, verbose_name="Цена USD")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Время создания")
+
     transactions = models.PositiveIntegerField(default=0, verbose_name='Количество транзакций')
     makers = models.PositiveIntegerField(default=0, verbose_name='Количество makers')
     volume = models.IntegerField(default=0, verbose_name='vol')
+    liquidity = models.IntegerField(default=0, verbose_name='Ликвидность')
+    mcap = models.IntegerField(default=0, verbose_name='mcap')
+
     price_change_5m = models.DecimalField(default=0, max_digits=15, decimal_places=2, verbose_name='Изменение цены 5 мин')
     price_change_1h = models.DecimalField(default=0, max_digits=15, decimal_places=2, verbose_name='Изменение цены 1 час')
     price_change_6h = models.DecimalField(default=0, max_digits=15, decimal_places=2, verbose_name='Изменение цены 6 часов')
     price_change_24h = models.DecimalField(default=0, max_digits=15, decimal_places=2, verbose_name='Изменение цены 24 часа')
-    liquidity = models.IntegerField(default=0, verbose_name='Ликвидность')
-    mcap = models.IntegerField(default=0, verbose_name='mcap')
-
-    token_1 = models.ForeignKey(to=Tokens, on_delete=models.DO_NOTHING,
-        related_name="pairs_as_token_1", verbose_name="Токен 1",)
     
-    token_2 = models.ForeignKey(to=Tokens,on_delete=models.DO_NOTHING, 
-        related_name="pairs_as_token_2", verbose_name="Токен 2",)
+    token = models.ForeignKey(to=Tokens, on_delete=models.DO_NOTHING,
+        related_name="token", verbose_name="Адрес токена",)
     
     blockchain = models.ForeignKey(to=Blockchains, on_delete=models.DO_NOTHING, verbose_name="Сеть")
     dex_name = models.ForeignKey(to=DexNames, on_delete=models.DO_NOTHING, verbose_name="DEX")
+
+    # Метод для получения последней цены токена
+    @property
+    def get_price(self):
+        last_price = self.prices.order_by('-timestamp').first()
+        return last_price.usd_price if last_price else None
 
     @property
     def age(self):
@@ -93,6 +98,21 @@ class Pools(models.Model):
 
     def __str__(self) -> str:
         return f"{self.address} / {self.token_1_id} / {self.token_2_id} / {self.dex_name}"
+    
+
+class PoolTokenPrice(models.Model):
+    pool = models.ForeignKey(to=Pools, on_delete=models.CASCADE, related_name='prices')
+    timestamp = models.DateTimeField(default=timezone.now, verbose_name="Время получения цены")
+
+    usd_price = models.DecimalField(max_digits=13, decimal_places=10, verbose_name="Цена USD")
+    native_token_price = models.DecimalField(max_digits=20, decimal_places=10)
+
+    class Meta:
+        db_table = "pool_price"
+        unique_together = ('pool', 'timestamp')  # Обеспечивает уникальность записи для каждого токена в конкретное время
+        indexes = [
+            models.Index(fields=['pool', 'timestamp']),  # Индекс для ускорения запросов по времени и токену
+        ]
 
 
 class TokenPools(models.Model):

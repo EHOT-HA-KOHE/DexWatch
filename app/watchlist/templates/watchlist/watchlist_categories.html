@@ -20,10 +20,10 @@
      </div>
 
     <!-- Форма для создания новой категории -->
-    <form id="category-form" class="search-input" role="search" action="{% url "watchlist:create_category" %}" method="post">
+    <form id="create_category_form" class="search-input create_category_form" role="search" action="{% url "watchlist:create_category" %}" method="post">
         {% csrf_token %}
-        <input class="form-control me-2 custom-input" type="search" name="category_name" id="category-name" placeholder="Create New" aria-label="Search">
-        <button type="button" id="create-category-btn">Создать</button>
+        <input class="form-control me-2 custom-input create_category_input" type="search" name="category_name" id="newCategoryName" 
+        placeholder="Create New Category: Enter New Category Name..." aria-label="Search">
     </form>
 
 {% endblock content %}

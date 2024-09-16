@@ -1,6 +1,6 @@
 from email import message
 from typing import Any
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
@@ -9,35 +9,40 @@ from django.views import View
 
 from pairs.models import Pools
 from users.models import User
-from watchlist.models import PoolList
+from watchlist.models import UserCollections
 
 
-class CategoriesList(TemplateView):
+class CollectionsView(TemplateView):
     template_name = "watchlist/watchlist_categories.html"
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["title"] = "User`s Lists"
-        # context['collections'] = PoolList.objects.filter(user=self.request.user)
         return context
 
 
-class CategoryPoolList(TemplateView):
+class CollectionPairsView(TemplateView):
     template_name = "watchlist/category_pairs.html"
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        pool_list, created = PoolList.objects.get_or_create(
-            user=self.request.user, name=kwargs.get("category_name")
-        )
-        context["pools"] = pool_list.pools.all()
-        context["content"] = kwargs.get("category_name").capitalize()
-        context["category_name"] = kwargs.get("category_name").capitalize()
+
+        category_name = kwargs.get("category_name")
+        query_kwargs = {'user': self.request.user} if self.request.user.is_authenticated \
+                                        else {'session_key': self.request.session.session_key}
+
+        collection = UserCollections.objects.filter(name=category_name, **query_kwargs).first()
+        if not collection:
+            raise Http404(f"Коллекция с именем '{category_name}' не найдена.")
+        
+        context["pools"] = collection.pools.all()
+        context["title"] = f"User Collection - {category_name}"
+        context["category_name"] = category_name
         context["is_saving_view"] = True
         return context
 
 
-class CreateNewCategoryPoolList(View):
+class CreateNewCollectionView(View):
     def post(self, request, *args, **kwargs):
         category_name = request.POST.get("category_name")
 
@@ -52,15 +57,17 @@ class CreateNewCategoryPoolList(View):
                 }
             )
 
-        user = request.user
+        query_kwargs = {'user': request.user} if request.user.is_authenticated \
+                                else {'session_key': request.session.session_key}
         # Логика создания новой категории, если требуется
-        category, created = PoolList.objects.get_or_create(
-            name=category_name, user=user
+        collection, created = UserCollections.objects.get_or_create(
+            name=category_name, 
+            **query_kwargs
         )
 
         if not created:
             return JsonResponse(
-                {"message": f"Категория с именем {category} уже существует."}
+                {"message": f"Категория с именем {collection} уже существует."}
             )
 
         collections = render_to_string(
@@ -69,99 +76,92 @@ class CreateNewCategoryPoolList(View):
 
         # Формируем данные для ответа
         response_data = {
-            "message": f"Категория {category} создана.",
+            "message": f"Категория {collection} создана.",
             "collections": collections,
         }
 
         return JsonResponse(response_data)
 
 
-class DelCategoryPoolList(View):
+class DelCollectionView(View):
     def post(self, request):
         category_name = request.POST.get("category_name")
         user = request.user
 
-        category = PoolList.objects.filter(user=user, name=category_name)
-        if not category.exists():
-            return JsonResponse(
-                {
-                    "message": f"Подборка {category_name} не была удалена для пользователя {user.username}, "
-                    / "так как ее не существует"
-                }
-            )
+        query_kwargs = {'user': request.user} if request.user.is_authenticated \
+                                else {'session_key': request.session.session_key}
 
-        category.first().delete()
+        collection = UserCollections.objects.filter(name=category_name, **query_kwargs)
+        if not collection.exists():
+            return JsonResponse({"message": f"Подборка {category_name} не была удалена для пользователя {user.username}, " \
+                                "так как не была найдена"}, status=400)
+
+        collection.first().delete()
 
         collections = render_to_string("watchlist/_categories_list.html", {"request": request})
 
-        return JsonResponse(
-            {
-                "message": f"Подборка {category_name} успешно удалена для пользователя {user.username}",
-                "collections": collections
-            }
-        )
+        return JsonResponse({"message": f"Подборка {category_name} успешно удалена для пользователя {user.username}",
+                            "collections": collections})
 
 
-class AddPoolToCategoryPoolList(View):
+class AddPoolToCollectionView(View):
     def post(self, request):
         pool = Pools.objects.filter(address=request.POST.get("pool_address"))
         if not pool.exists():
-            return JsonResponse(
-                {"message": f"Пул не был добавлен в подборку, пул не был найден"}
-            )
+            return JsonResponse({"message": f"Пул не был добавлен в подборку, пул не был найден"}, status=400,)
 
-        user_category = PoolList.objects.filter(
-            user=self.request.user, name=request.POST.get("collection_name")
+        query_kwargs = {'user': request.user} if request.user.is_authenticated \
+                                else {'session_key': request.session.session_key}
+        collection = UserCollections.objects.filter(
+            name=request.POST.get("collection_name"),
+            **query_kwargs
         )
-        if not user_category.exists():
+        if not collection.exists():
             return JsonResponse(
-                {
-                    "message": f"Пул не был добавлен в подборку, у пользователя нет подборки с таким именем"
-                }
+                {"message": f"Пул не был добавлен в подборку, у пользователя нет подборки с таким именем"}, status=400,
             )
 
         pool = pool.first()
-        user_category = user_category.first()
+        collection = collection.first()
 
-        is_pool_in_category = user_category.pools.filter(id=pool.id).exists()
+        is_pool_in_category = collection.pools.filter(id=pool.id).exists()
         if is_pool_in_category:
-            return JsonResponse({"message": f"Пул уже добавлен в эту подборку"})
+            return JsonResponse({"message": f"Пул уже добавлен в эту подборку"}, status=400,)
 
-        user_category.pools.add(pool)
+        collection.pools.add(pool)
 
         response_data = {
-            "message": f"Пул успешно добавлен в вашу подборку {user_category.name}"
+            "message": f"Пул успешно добавлен в вашу подборку {collection.name}"
         }
 
         return JsonResponse(response_data)
 
 
-class DelPoolFromCategoryPoolList(View):
+class DelPoolFromCollectionView(View):
     def post(self, request):
         pool_address = request.POST.get('pool_address')
         category_name = request.POST.get('collection_name')
-        user = request.user
 
-        pool_list = PoolList.objects.filter(user=user, name=category_name)
-        if not pool_list.exists():
+        query_kwargs = {'user': request.user} if request.user.is_authenticated \
+                                else {'session_key': request.session.session_key}
+        collection = UserCollections.objects.filter(
+            name=category_name,
+            **query_kwargs
+        )
+        if not collection.exists():
             return JsonResponse({'message': 'Этот категория не была найдена'})
-        pool_list = pool_list.first()
+        collection = collection.first()
 
         pool = Pools.objects.filter(address=pool_address)
         if not pool.exists():
             return JsonResponse({'message': 'Этот пул не был найден'})
         pool = pool.first()
 
-        pool_list.pools.remove(pool)
-
-        pool_url = reverse('pairs:pair_address', kwargs={
-            'chain': pool.dex_name.blockchain.name, 
-            'pair_address': pool_address
-        })
+        collection.pools.remove(pool)
 
         return JsonResponse(
                 {
                     'message': f'Пул {pool_address} был успешно удален из категории {category_name}', 
-                    'pool_url': pool_url,
-                 }
+                    'pool_address': pool_address,
+                    }
             )

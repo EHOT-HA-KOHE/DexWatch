@@ -41,7 +41,7 @@ def q_search(query):
         Pools.objects.filter(
             address__icontains=query
         ) | Pools.objects.filter(
-            token_1__name__icontains=query
+            token__name__icontains=query
         )
     ).distinct()
 

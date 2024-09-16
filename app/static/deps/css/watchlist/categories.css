@@ -17,3 +17,19 @@
     background-color: #333333;
     border-radius: 10%;
 }
+
+.tile-container {
+    margin: 0;
+    /* align-items: left; */
+
+}
+
+.create_category_form {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.create_category_input {
+    max-width: 40%;
+    margin: 0;
+}

@@ -29,7 +29,10 @@
             </thead>
             <tbody>
                 {% for pool in pools %}                        
-                    <tr class="clickable-row" data-href="{% url 'pairs:pair_address' chain=pool.dex_name.blockchain.name pair_address=pool.address %}">
+                    <tr class="clickable-row" 
+                    data-href="{% url 'pairs:pair_address' chain=pool.dex_name.blockchain.name pair_address=pool.address %}"
+                    data-pool-address-del="{{ pool.address }}" 
+                    >
                         {% if is_saving_view %}
                             <td>
                                 <i 
@@ -42,7 +45,7 @@
                         {% else %}
                             <td>
                                 <i 
-                                class="fa fa-plus add-to-user-collection chain-icon" 
+                                class="fa fa-plus add-to-user-collection-button chain-icon" 
                                 id="modalButton"
                                 data-pool-address="{{ pool.address }}" 
                                 data-category="{{ category_name }}" 
@@ -64,8 +67,8 @@
                                 <img class="chain-icon" src="{% static "deps/icons/base.svg" %}" alt="base-icon">
                             {% endif %}
                         </td>
-                        <td>{{ pool.token_1.name }} ({{ pool.token_1.symbol }})</td>
-                        <td>${{ pool.usd_price }}</td>
+                        <td>{{ pool.token.name }} ({{ pool.token.symbol }})</td>
+                        <td>${{ pool.get_price }}</td>
                         <td>{{ pool.age_formatted }}</td>
                         <td>{{ pool.transactions }}</td>
                         <td>${{ pool.volume|format_number }}</td>

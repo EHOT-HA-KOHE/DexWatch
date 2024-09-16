@@ -2,15 +2,7 @@
 {% user_collections as collections %}
 
 
-{% comment %} <div id="tile-container" class="tile-container">
-    {% for category in collections %}
-        <a href="{% url "watchlist:category_pools" category.name %}" class="tile">
-            <div>{{ category.name }} ({{ category|len_of_collection }})</div>
-        </a>
-    {% endfor %}
-</div> {% endcomment %}
-
-<div id="tile-container" class="tile-container">
+<div id="tile-container" class="tile-container tile-container-left">
     {% for category in collections %}
         <a href="{% url "watchlist:category_pools" category.name %}" class="tile">
             <div>

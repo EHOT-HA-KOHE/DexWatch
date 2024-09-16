@@ -1,10 +1,21 @@
-
-
 // Когда HTML-документ готов
 $(document).ready(function () {
     // берем в переменную элемент разметки с id jq-notification для оповещений от ajax
-    var successMessage = $("#jq-notification");
+    var infoMessage = $("#jq-notification");
 
+
+    // =========================================
+
+    // Получаем параметр q из URL
+    const query = new URLSearchParams(window.location.search).get('q');
+
+    if (query) {
+        // Заполняем поле поиска значением из URL
+        $('input[name="q"]').val(query);
+
+        // Выполняем поиск с полученным значением
+        performSearch(query);
+    }
 
     // =========================================
 
@@ -32,7 +43,7 @@ $(document).ready(function () {
     document.querySelectorAll('.clickable-row').forEach(row => {
         row.addEventListener('click', function (event) {
             // Проверяем, не был ли клик по элементу с классом 'delete-icon' или 'add-to-user-collection'
-            if (!event.target.closest('.delete-icon') && !event.target.closest('.add-to-user-collection')) {
+            if (!event.target.closest('.delete-icon') && !event.target.closest('.add-to-user-collection-button')) {
                 window.location.href = this.getAttribute('data-href');
             }
         });
@@ -45,48 +56,59 @@ $(document).ready(function () {
 
     // Добавление категорий пользователя
 
-    // Обработчик клика на кнопку создания категории
-    $('#create-category-btn').on('click', function (e) {
-        e.preventDefault();  // Предотвращаем стандартное поведение формы
+    // Обработчик клика на кнопку создания категории если он есть на странице
 
-        // Получаем значение категории из поля ввода
-        const categoryName = $('#category-name').val().trim();
+    const formElement = document.getElementById('create_category_form');
 
-        if (categoryName === '') {
-            alert('Введите название категории');
-            return;
-        }
+    if (formElement) {
+        formElement.addEventListener('submit', function (e) {
+            e.preventDefault();  // Предотвращаем стандартное поведение формы
 
-        // Отправляем AJAX-запрос на создание новой категории
-        $.ajax({
-            url: $('#category-form').attr('action'),  // Получаем URL из атрибута формы
-            method: 'POST',
-            data: {
-                category_name: categoryName,
-                csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()  // Передаем CSRF токен
-            },
-            success: function (response) {
-                // Очищаем поле ввода
-                $('#category-name').val('');
+            // Получаем значение категории из поля ввода
+            let categoryName = this.category_name.value;
 
+            if (categoryName === '') {
                 // Сообщение
-                successMessage.html(response.message);
-                successMessage.fadeIn(400);
+                infoMessage.html("Введите название категории которую хотите создать");
+                infoMessage.fadeIn(400);
                 // Через 7сек убираем сообщение
                 setTimeout(function () {
-                    successMessage.fadeOut(400);
+                    infoMessage.fadeOut(400);
                 }, 7000);
-
-                // Меняем содержимое категорий на ответ от Django (новый отрисованный HTML)
-                var tileContainer = $("#include-list-categories-place");
-                tileContainer.html(response.collections);  // Обновляем контейнер с категориями
-
-            },
-            error: function (xhr, status, error) {
-                console.error('Ошибка при создании категории:', error);
+                return;
             }
+
+            // Отправляем AJAX-запрос на создание новой категории
+            $.ajax({
+                url: $('#create_category_form').attr('action'),  // Получаем URL из атрибута формы
+                method: 'POST',
+                data: {
+                    category_name: categoryName,
+                    csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()  // Передаем CSRF токен
+                },
+                success: function (response) {
+                    // Очищаем поле ввода
+                    $('#newCategoryName').val('');
+
+                    // Сообщение
+                    infoMessage.html(response.message);
+                    infoMessage.fadeIn(400);
+                    // Через 7сек убираем сообщение
+                    setTimeout(function () {
+                        infoMessage.fadeOut(400);
+                    }, 7000);
+                    
+                    // Меняем содержимое категорий на ответ от Django (новый отрисованный HTML)
+                    var tileContainer = $("#include-list-categories-place");
+                    tileContainer.html(response.collections);  // Обновляем контейнер с категориями
+
+                },
+                error: function (xhr, status, error) {
+                    console.error('Ошибка при создании категории:', error);
+                }
+            });
         });
-    });
+    }
 
     // ==========================================================================
 
@@ -111,11 +133,11 @@ $(document).ready(function () {
             },
             success: function (response) {
                 // Сообщение
-                successMessage.html(response.message);
-                successMessage.fadeIn(400);
+                infoMessage.html(response.message);
+                infoMessage.fadeIn(400);
                 // Через 7сек убираем сообщение
                 setTimeout(function () {
-                    successMessage.fadeOut(400);
+                    infoMessage.fadeOut(400);
                 }, 7000);
 
                 // Меняем содержимое категорий на ответ от Django (новый отрисованный HTML)
@@ -150,18 +172,18 @@ $(document).ready(function () {
             },
             success: function (response) {
                 // Сообщение
-                successMessage.html(response.message);
-                successMessage.fadeIn(400);
+                infoMessage.html(response.message);
+                infoMessage.fadeIn(400);
                 // Через 7сек убираем сообщение
                 setTimeout(function () {
-                    successMessage.fadeOut(400);
+                    infoMessage.fadeOut(400);
                 }, 7000);
 
                 // location.reload(); // Обновляем страницу после удаления
 
                 // Удаление строки с нужным data-href
-                var poolUrl = response.pool_url;
-                $('tr[data-href="' + poolUrl + '"]').remove();
+                var poolAddress = response.pool_address;
+                $('tr[data-pool-address-del=' + poolAddress + ']').remove();
             },
             error: function (xhr, status, error) {
                 console.error('Ошибка при удалении пула:', error);
@@ -174,6 +196,19 @@ $(document).ready(function () {
 
 
     // Добавление токена в подборку
+    // Для кнопки "+" в new-pairs
+    $(document).on("click", ".add-to-user-collection-button", function (e) {
+        e.preventDefault();
+    
+        var poolAddress = $(this).data("pool-address");
+    
+        // Устанавливаем значение в модальном окне
+        $("#exampleModal").data("pool-address", poolAddress);
+    
+        $("#exampleModal").modal('show');  // Открываем модальное окно
+    });
+
+    
     // Ловим собыитие клика по кнопке добавить в корзину
     $(document).on("click", ".add-to-user-collection", function (e) {
         // Блокируем его базовое действие
@@ -181,11 +216,19 @@ $(document).ready(function () {
 
         // Получаем address пула из атрибута data-addres
         var address = $(this).data("address");
+        // Если адрес отсутствует, получаем его из модального окна
+        if (!address) {
+            address = $("#exampleModal").data("pool-address");
+        }
+
         // Получаем название категории пула из атрибута data-category
         var collection_name = $(this).data("collection");
 
         // Из атрибута href берем ссылку на контроллер django
         var add_to_collection_url = $(this).attr("href");
+
+        // Получаем элемент с нужным data-collection-name
+        var collectionCountElement = $(".collection_count[data-collection-name='" + collection_name + "']");
 
         // делаем post запрос через ajax не перезагружая страницу
         $.ajax({
@@ -197,17 +240,41 @@ $(document).ready(function () {
                 csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),
             },
             success: function (data) {
+                // Получаем текущее значение и увеличиваем его на 1
+                var currentCount = parseInt(collectionCountElement.text(), 10);
+
+                if (!isNaN(currentCount)) {
+                    collectionCountElement.text(currentCount + 1);
+                }
+
                 // Сообщение
-                successMessage.html(data.message);
-                successMessage.fadeIn(400);
+                infoMessage.html(data.message);
+                infoMessage.fadeIn(400);
                 // Через 7сек убираем сообщение
                 setTimeout(function () {
-                    successMessage.fadeOut(400);
+                    infoMessage.fadeOut(400);
                 }, 7000);
             },
+            error: function (xhr, status, error) {
+                var response = xhr.responseJSON;
+                
+                // Если есть JSON-ответ от сервера
+                if (response && response.message) {
+                    infoMessage.html(response.message); // Выводим сообщение об ошибке из JSON
+                } else {
+                    // Иначе выводим общее сообщение об ошибке
+                    infoMessage.html("Произошла ошибка при добавлении в подборку. Попробуйте снова.");
+                }
+    
+                // Показать сообщение об ошибке
+                infoMessage.fadeIn(400);
+    
+                // Через 7 секунд убираем сообщение
+                setTimeout(function () {
+                    infoMessage.fadeOut(400);
+                }, 7000);
 
-            error: function (data) {
-                console.log("Ошибка при добавлении товара в корзину");
+                console.error("Ошибка при добавлении товара в корзину");
             },
         });
     });
@@ -248,84 +315,80 @@ $(document).ready(function () {
 
 
     // Поиск
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     const query = new URLSearchParams(window.location.search).get('q');
+        
+    //     console.log(query); // Проверка значения параметра 'q'
+    //     console.log('LNNNNNNOOOL'); // Проверка, что этот лог появляется
+    
+    //     if (query) {
+    //         document.querySelector('input[name="q"]').value = query;
+    //         performSearch(query); // Выполняем поиск
+    //     }
+    // });
+    
+    
+    
+    function performSearch(query) {
 
-    document.getElementById('searchForm').addEventListener('submit', function (e) {
-        e.preventDefault();  // Предотвращаем стандартное поведение отправки формы
-
-        let query = this.q.value;  // Получаем значение поля ввода
-
-        if (query === '') {
-            // Сообщение
-            successMessage.html("Запрос не может быть пустым");
-            successMessage.fadeIn(400);
-            // Через 7сек убираем сообщение
-            setTimeout(function () {
-                successMessage.fadeOut(400);
-            }, 7000);
-            return;
-        }
-
-        // Обновляем URL
-        history.pushState(null, '', `?q=${encodeURIComponent(query)}`);
-
-        // Здесь выполняем AJAX-запрос с поисковым запросом
-        console.log("Поисковый запрос:", query);
-
-        // Отправляем AJAX-запрос на создание новой категории
+        // Отправляем AJAX-запрос с поисковым запросом
         $.ajax({
-            url: $('#searchForm').attr('action'),  // Получаем URL из атрибута формы
+            url: $('#searchForm').attr('action'),
             method: 'GET',
             data: {
                 q: query,
             },
             success: function (response) {
-                // Очищаем поле ввода
-                $('#category-name').val('');
-
-                // Сообщение
-                successMessage.html(response.message);
-                successMessage.fadeIn(400);
-                // Через 7сек убираем сообщение
-                setTimeout(function () {
-                    successMessage.fadeOut(400);
-                }, 7000);
-
-                // Меняем содержимое категорий на ответ от Django (новый отрисованный HTML)
+                // Меняем содержимое контейнера с результатами поиска
                 var tileContainer = $("#searchResults");
-                tileContainer.html(response.q_results);  // Обновляем контейнер с категориями
+                tileContainer.html(response.q_results);  // Обновляем контейнер с результатами поиска
                 openModal();  // Открываем модальное окно
             },
             error: function (xhr, status, error) {
-                console.error('Ошибка при создании категории:', error);
+                var response = xhr.responseJSON;
+                // Сообщение
+                infoMessage.html(response.message);
+                infoMessage.fadeIn(400);
+                // Через 7сек убираем сообщение
+                setTimeout(function () {
+                    infoMessage.fadeOut(400);
+                }, 7000);
+
+                console.error('Ошибка при выполнении поиска:', error);
             }
         });
-    });
-
-
-
-    window.addEventListener('popstate', function (event) {
-        // Получение значения query из URL
-        const query = new URLSearchParams(window.location.search).get('q');
-        
-        if (query) {
-            // Отправляем запрос для получения данных при возврате к предыдущему состоянию
-            $.ajax({
-                url: $('#searchForm').attr('action'),
-                method: 'GET',
-                data: {
-                    q: query,
-                },
-                success: function (response) {
-                    var tileContainer = $("#searchResults");
-                    tileContainer.html(response.q_results);  // Обновляем контейнер с категориями
-                    openModal();  // Открываем модальное окно
-                },
-                error: function (xhr, status, error) {
-                    console.error('Ошибка при создании категории:', error);
-                }
-            });
+    }
+    
+    document.getElementById('searchForm').addEventListener('submit', function (e) {
+        e.preventDefault();  // Предотвращаем стандартное поведение отправки формы
+    
+        let query = this.q.value;  // Получаем значение поля ввода
+    
+        if (query === '') {
+            // Сообщение
+            infoMessage.html("Запрос не может быть пустым");
+            infoMessage.fadeIn(400);
+            // Через 7сек убираем сообщение
+            setTimeout(function () {
+                infoMessage.fadeOut(400);
+            }, 7000);
+            return;
         }
+    
+        // Обновляем URL
+        history.pushState(null, '', `?q=${encodeURIComponent(query)}`);
+    
+        // Выполняем поиск
+        performSearch(query);
     });
+    
+    function openModal() {
+        var searchModal = new bootstrap.Modal(document.getElementById('searchModal'), {
+            keyboard: false
+        });
+        searchModal.show();
+    }
+    
     
 
 });

@@ -1,1 +1,282 @@
-[{"model": "pairs.pools", "pk": 1, "fields": {"address": "0x5ad0732245eb48b78a407845318a37a8d3205589914d1cad33d898fd43d8283d", "usd_price": "1.1442439000", "created_at": "2024-09-05T13:18:38.606Z", "transactions": 205017, "makers": 11952, "volume": 17359231, "price_change_5m": "-58.26", "price_change_1h": "1.99", "price_change_6h": "60.60", "price_change_24h": "-43.15", "liquidity": 33532, "mcap": 499069, "token_1": 1, "token_2": 2, "blockchain": 1, "dex_name": 1}}, {"model": "pairs.pools", "pk": 2, "fields": {"address": "0xd19e4a0bbf44b3080ae5dda491ede5a8c0aa1749a5255f69e050a94892005566", "usd_price": "0.8760700000", "created_at": "2024-09-05T13:18:38.644Z", "transactions": 96225, "makers": 7004, "volume": 167789, "price_change_5m": "60.50", "price_change_1h": "21.15", "price_change_6h": "86.94", "price_change_24h": "-47.76", "liquidity": 924643, "mcap": 882280, "token_1": 3, "token_2": 4, "blockchain": 1, "dex_name": 2}}, {"model": "pairs.pools", "pk": 3, "fields": {"address": "0x4c5438f4cae3ec6414e29bef607d5f46780e79dc474b29cd1f0a886fdf6c572a", "usd_price": "0.2060430000", "created_at": "2024-09-05T13:18:38.673Z", "transactions": 116362, "makers": 4156, "volume": 19683868, "price_change_5m": "-12.75", "price_change_1h": "30.56", "price_change_6h": "-72.78", "price_change_24h": "81.69", "liquidity": 478423, "mcap": 338788, "token_1": 5, "token_2": 6, "blockchain": 1, "dex_name": 3}}, {"model": "pairs.pools", "pk": 4, "fields": {"address": "0xf1967e97e1083a63c62cdfc26a94da92564e20e12866f437217b888ad0b1b1e5", "usd_price": "0.8162163900", "created_at": "2024-09-05T13:18:38.701Z", "transactions": 170791, "makers": 2985, "volume": 18859409, "price_change_5m": "-50.36", "price_change_1h": "-86.61", "price_change_6h": "-42.42", "price_change_24h": "62.07", "liquidity": 759461, "mcap": 274252, "token_1": 7, "token_2": 8, "blockchain": 3, "dex_name": 4}}, {"model": "pairs.pools", "pk": 5, "fields": {"address": "0xeea32706ceeea18ece420ede85bbc9dc629a96c899a0782cdd0543e260698320", "usd_price": "0.0191304800", "created_at": "2024-09-05T13:18:38.725Z", "transactions": 102581, "makers": 17718, "volume": 12399910, "price_change_5m": "74.49", "price_change_1h": "-59.15", "price_change_6h": "73.75", "price_change_24h": "29.39", "liquidity": 875501, "mcap": 961158, "token_1": 9, "token_2": 10, "blockchain": 1, "dex_name": 1}}, {"model": "pairs.pools", "pk": 6, "fields": {"address": "0x2a27c1441298bb31f68222750d6247f80b9e2996ff5cfe0abbb175107c054490", "usd_price": "0.9447788000", "created_at": "2024-09-05T13:18:38.752Z", "transactions": 203334, "makers": 17587, "volume": 19714739, "price_change_5m": "41.12", "price_change_1h": "-86.18", "price_change_6h": "58.81", "price_change_24h": "-80.78", "liquidity": 338630, "mcap": 723980, "token_1": 11, "token_2": 12, "blockchain": 1, "dex_name": 2}}, {"model": "pairs.pools", "pk": 7, "fields": {"address": "0x4d9960e7326e106744ca0c231b3901f516157da41d22e55eede244b88bb833eb", "usd_price": "1.0136440000", "created_at": "2024-09-05T13:18:38.785Z", "transactions": 127051, "makers": 12944, "volume": 15519090, "price_change_5m": "81.78", "price_change_1h": "-82.95", "price_change_6h": "31.92", "price_change_24h": "-1.94", "liquidity": 698412, "mcap": 99783, "token_1": 13, "token_2": 14, "blockchain": 1, "dex_name": 3}}, {"model": "pairs.pools", "pk": 8, "fields": {"address": "0x59ae91401972c8bef2640d44604f8783816be45d6a013636f2cc14e3930071fb", "usd_price": "0.3144307000", "created_at": "2024-09-05T13:18:40.245Z", "transactions": 933, "makers": 7658, "volume": 899014, "price_change_5m": "41.55", "price_change_1h": "72.34", "price_change_6h": "-5.05", "price_change_24h": "43.23", "liquidity": 580104, "mcap": 470118, "token_1": 15, "token_2": 16, "blockchain": 1, "dex_name": 1}}, {"model": "pairs.pools", "pk": 9, "fields": {"address": "0x85f22298034c35ca689b2ef2988f95f961cba04e4bc9edcf99a47d2bddabb7d0", "usd_price": "0.4573250000", "created_at": "2024-09-05T13:18:40.275Z", "transactions": 131373, "makers": 12010, "volume": 18596936, "price_change_5m": "-31.81", "price_change_1h": "25.73", "price_change_6h": "-1.75", "price_change_24h": "-84.47", "liquidity": 1070891, "mcap": 922794, "token_1": 17, "token_2": 18, "blockchain": 1, "dex_name": 2}}, {"model": "pairs.pools", "pk": 10, "fields": {"address": "0xafcbc9ce90e7ac752fa52f0c20844eb366780c8ec94958da62bfbfbba399dfb1", "usd_price": "1.1161350000", "created_at": "2024-09-05T13:18:40.302Z", "transactions": 174449, "makers": 8444, "volume": 10777923, "price_change_5m": "-24.45", "price_change_1h": "67.22", "price_change_6h": "24.43", "price_change_24h": "90.84", "liquidity": 37922, "mcap": 158276, "token_1": 19, "token_2": 20, "blockchain": 1, "dex_name": 3}}, {"model": "pairs.pools", "pk": 11, "fields": {"address": "0x014c665724da38476a094b2711fb98761a57d7bd9767b66ad8784daf34e91055", "usd_price": "0.2189565740", "created_at": "2024-09-05T13:18:40.328Z", "transactions": 131361, "makers": 1835, "volume": 10751709, "price_change_5m": "-9.52", "price_change_1h": "-83.64", "price_change_6h": "58.94", "price_change_24h": "-91.23", "liquidity": 190563, "mcap": 681434, "token_1": 21, "token_2": 22, "blockchain": 3, "dex_name": 4}}, {"model": "pairs.pools", "pk": 12, "fields": {"address": "0x89cf17426db0f2c59b4050900958e618b1fe8656cd0334368c165b0742a70b8f", "usd_price": "0.8406261130", "created_at": "2024-09-05T13:18:40.354Z", "transactions": 5085, "makers": 11211, "volume": 8968341, "price_change_5m": "-14.98", "price_change_1h": "-96.16", "price_change_6h": "-9.12", "price_change_24h": "89.74", "liquidity": 949333, "mcap": 496322, "token_1": 23, "token_2": 24, "blockchain": 1, "dex_name": 1}}, {"model": "pairs.pools", "pk": 13, "fields": {"address": "0x81bf8a578d0c26f1f9718d5955576f15d7ca5d95a86e21466199f60c51316a46", "usd_price": "0.8849790000", "created_at": "2024-09-05T13:18:40.384Z", "transactions": 265943, "makers": 7671, "volume": 18090488, "price_change_5m": "67.16", "price_change_1h": "-1.75", "price_change_6h": "-75.53", "price_change_24h": "-69.75", "liquidity": 904355, "mcap": 551083, "token_1": 25, "token_2": 26, "blockchain": 1, "dex_name": 2}}, {"model": "pairs.pools", "pk": 14, "fields": {"address": "0x352967efb654d9814c55499e256c62041e2f79c7438df3b280e4344613f60143", "usd_price": "0.1616500000", "created_at": "2024-09-05T13:18:40.418Z", "transactions": 216094, "makers": 17947, "volume": 14220523, "price_change_5m": "71.25", "price_change_1h": "-59.69", "price_change_6h": "30.97", "price_change_24h": "84.06", "liquidity": 678508, "mcap": 297978, "token_1": 27, "token_2": 28, "blockchain": 1, "dex_name": 3}}]
+[
+    {
+        "model": "pairs.pools",
+        "pk": 1,
+        "fields": {
+            "address": "0x59c6cefaf409a0c210145b666cb0d21fde419eea5b93fba6f5d7c0ce37871392",
+            "created_at": "2024-09-14T12:34:16.917Z",
+            "transactions": 156497,
+            "makers": 17036,
+            "volume": 7766879,
+            "liquidity": 105162,
+            "mcap": 1163115,
+            "price_change_5m": "56.50",
+            "price_change_1h": "40.51",
+            "price_change_6h": "-64.23",
+            "price_change_24h": "85.55",
+            "token": 1,
+            "blockchain": 1,
+            "dex_name": 1
+        }
+    },
+    {
+        "model": "pairs.pools",
+        "pk": 2,
+        "fields": {
+            "address": "0x710b0b53768995b8f56abc1b3beeafad1abdd3cff8fe22c86fc644c137e0c2b9",
+            "created_at": "2024-09-14T12:34:16.937Z",
+            "transactions": 141252,
+            "makers": 8573,
+            "volume": 12529196,
+            "liquidity": 1174538,
+            "mcap": 128131,
+            "price_change_5m": "-26.32",
+            "price_change_1h": "37.67",
+            "price_change_6h": "-9.21",
+            "price_change_24h": "15.03",
+            "token": 2,
+            "blockchain": 1,
+            "dex_name": 2
+        }
+    },
+    {
+        "model": "pairs.pools",
+        "pk": 3,
+        "fields": {
+            "address": "0x87d10dbc239dc155fc36d573101c73b298f9c6fa59f774f0564bc31798049131",
+            "created_at": "2024-09-14T12:34:16.957Z",
+            "transactions": 157971,
+            "makers": 11265,
+            "volume": 7206902,
+            "liquidity": 43021,
+            "mcap": 649350,
+            "price_change_5m": "17.67",
+            "price_change_1h": "96.57",
+            "price_change_6h": "-81.60",
+            "price_change_24h": "-32.66",
+            "token": 3,
+            "blockchain": 1,
+            "dex_name": 3
+        }
+    },
+    {
+        "model": "pairs.pools",
+        "pk": 4,
+        "fields": {
+            "address": "0x6558198140f214385cb8356fef6373dcd25ce5339270f44a5ba1f9811fe6fc73",
+            "created_at": "2024-09-14T12:34:16.977Z",
+            "transactions": 44741,
+            "makers": 18008,
+            "volume": 8636257,
+            "liquidity": 972151,
+            "mcap": 1102547,
+            "price_change_5m": "28.19",
+            "price_change_1h": "-2.04",
+            "price_change_6h": "46.37",
+            "price_change_24h": "-60.17",
+            "token": 4,
+            "blockchain": 3,
+            "dex_name": 4
+        }
+    },
+    {
+        "model": "pairs.pools",
+        "pk": 5,
+        "fields": {
+            "address": "0xd4f1a0863a68c99bb49d1939b7d1fc11229fa414b8c7f5a5e53651799547d2a4",
+            "created_at": "2024-09-14T12:34:16.997Z",
+            "transactions": 135744,
+            "makers": 13496,
+            "volume": 18552536,
+            "liquidity": 53559,
+            "mcap": 1094492,
+            "price_change_5m": "-80.88",
+            "price_change_1h": "-56.11",
+            "price_change_6h": "-29.14",
+            "price_change_24h": "44.26",
+            "token": 5,
+            "blockchain": 1,
+            "dex_name": 1
+        }
+    },
+    {
+        "model": "pairs.pools",
+        "pk": 6,
+        "fields": {
+            "address": "0x7a6596921ef98876f345bc25a9895db597d13f59c64eb73466cf0d8462cdc9dc",
+            "created_at": "2024-09-14T12:34:17.019Z",
+            "transactions": 296496,
+            "makers": 4100,
+            "volume": 11122288,
+            "liquidity": 472977,
+            "mcap": 949247,
+            "price_change_5m": "67.87",
+            "price_change_1h": "-9.04",
+            "price_change_6h": "-14.11",
+            "price_change_24h": "-80.11",
+            "token": 6,
+            "blockchain": 1,
+            "dex_name": 2
+        }
+    },
+    {
+        "model": "pairs.pools",
+        "pk": 7,
+        "fields": {
+            "address": "0x9223ca4ed49f566891865ec76d480bfce9b1a60eb70c6e23bc2313651d93248c",
+            "created_at": "2024-09-14T12:34:17.038Z",
+            "transactions": 57410,
+            "makers": 12505,
+            "volume": 10598090,
+            "liquidity": 193090,
+            "mcap": 70744,
+            "price_change_5m": "-68.84",
+            "price_change_1h": "-95.12",
+            "price_change_6h": "51.69",
+            "price_change_24h": "56.51",
+            "token": 7,
+            "blockchain": 1,
+            "dex_name": 3
+        }
+    },
+    {
+        "model": "pairs.pools",
+        "pk": 8,
+        "fields": {
+            "address": "0xc50c4d67ba8514a0e23f4b073257db37117d4d99a26025dfdf30b821e90ca57c",
+            "created_at": "2024-09-14T13:33:02.665Z",
+            "transactions": 94035,
+            "makers": 8080,
+            "volume": 17337157,
+            "liquidity": 545301,
+            "mcap": 149058,
+            "price_change_5m": "83.33",
+            "price_change_1h": "73.63",
+            "price_change_6h": "84.14",
+            "price_change_24h": "-42.00",
+            "token": 8,
+            "blockchain": 1,
+            "dex_name": 1
+        }
+    },
+    {
+        "model": "pairs.pools",
+        "pk": 9,
+        "fields": {
+            "address": "0x8e2b9754c7a3059e8ac3c8d674b15bfaeadc47aeb3940bfcadb737040e5b0b0a",
+            "created_at": "2024-09-14T13:33:02.708Z",
+            "transactions": 275953,
+            "makers": 15896,
+            "volume": 13669507,
+            "liquidity": 591663,
+            "mcap": 1059393,
+            "price_change_5m": "9.49",
+            "price_change_1h": "73.35",
+            "price_change_6h": "-49.88",
+            "price_change_24h": "21.99",
+            "token": 9,
+            "blockchain": 1,
+            "dex_name": 2
+        }
+    },
+    {
+        "model": "pairs.pools",
+        "pk": 10,
+        "fields": {
+            "address": "0x1757ab34b239f683b60e5f3f5c5981970943c654f92b27701fad0e26067023aa",
+            "created_at": "2024-09-14T13:33:02.752Z",
+            "transactions": 38563,
+            "makers": 16540,
+            "volume": 6942676,
+            "liquidity": 1145001,
+            "mcap": 558404,
+            "price_change_5m": "42.05",
+            "price_change_1h": "44.43",
+            "price_change_6h": "94.44",
+            "price_change_24h": "60.64",
+            "token": 10,
+            "blockchain": 1,
+            "dex_name": 3
+        }
+    },
+    {
+        "model": "pairs.pools",
+        "pk": 11,
+        "fields": {
+            "address": "0x96a0fd152624f75bd9cce1d5fa51acf284ff007955bdcf8294ffcc8565a75c19",
+            "created_at": "2024-09-14T13:33:02.793Z",
+            "transactions": 41960,
+            "makers": 15251,
+            "volume": 1646743,
+            "liquidity": 421801,
+            "mcap": 240791,
+            "price_change_5m": "13.62",
+            "price_change_1h": "-27.74",
+            "price_change_6h": "-29.89",
+            "price_change_24h": "82.63",
+            "token": 11,
+            "blockchain": 3,
+            "dex_name": 4
+        }
+    },
+    {
+        "model": "pairs.pools",
+        "pk": 12,
+        "fields": {
+            "address": "0x44410710a96502624c5cf8288ad87983938b3bd400ff62eb620a70fc9ba52550",
+            "created_at": "2024-09-14T13:33:02.834Z",
+            "transactions": 185755,
+            "makers": 12704,
+            "volume": 7711995,
+            "liquidity": 65036,
+            "mcap": 1122421,
+            "price_change_5m": "-3.71",
+            "price_change_1h": "47.31",
+            "price_change_6h": "18.86",
+            "price_change_24h": "18.03",
+            "token": 12,
+            "blockchain": 1,
+            "dex_name": 1
+        }
+    },
+    {
+        "model": "pairs.pools",
+        "pk": 13,
+        "fields": {
+            "address": "0x529939d89761a09bae26773e1be4f791945e52b8a1ab8b67d7dec95203f7231b",
+            "created_at": "2024-09-14T13:33:02.874Z",
+            "transactions": 88331,
+            "makers": 6005,
+            "volume": 17663216,
+            "liquidity": 1077649,
+            "mcap": 267845,
+            "price_change_5m": "-37.20",
+            "price_change_1h": "-48.00",
+            "price_change_6h": "-13.58",
+            "price_change_24h": "-0.62",
+            "token": 13,
+            "blockchain": 1,
+            "dex_name": 2
+        }
+    },
+    {
+        "model": "pairs.pools",
+        "pk": 14,
+        "fields": {
+            "address": "0x811786ad1ae74adfdd20dd0372abaaebc6246e343aebd01da0bfc4c02bf0106c",
+            "created_at": "2024-09-14T13:33:02.916Z",
+            "transactions": 135507,
+            "makers": 2199,
+            "volume": 3122536,
+            "liquidity": 401898,
+            "mcap": 1008608,
+            "price_change_5m": "89.64",
+            "price_change_1h": "-0.42",
+            "price_change_6h": "-45.99",
+            "price_change_24h": "-40.84",
+            "token": 14,
+            "blockchain": 1,
+            "dex_name": 3
+        }
+    }
+]
