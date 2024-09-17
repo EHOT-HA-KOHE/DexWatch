@@ -2,9 +2,9 @@
 app/.history/
 app/.venv/
 app/db.sqlite3
-app/drafts
-app/.vscode
-app/pairs/draft.py
+submodules/django-app/drafts
+submodules/django-app/.vscode
+submodules/django-app/pairs/draft.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

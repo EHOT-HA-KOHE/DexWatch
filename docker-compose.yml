@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  django-app:
+    build:
+      context: ./django-app
+    depends_on:
+      - redis
+      - postgres
+      - api-proxy
+    environment:
+      - DJANGO_SETTINGS_MODULE=myproject.settings
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=postgres://user:password@postgres/dbname
+
+  blockchain-listener:
+    build:
+      context: ./blockchain-listener
+    depends_on:
+      - kafka
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+      KAFKA_LISTENER_NAME: INSIDE
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+
+  kafka-consumer:
+    build:
+      context: ./kafka-consumer
+    depends_on:
+      - kafka
+      - redis
+      - api-proxy
+
+  celery-worker:
+    build:
+      context: ./celery-worker
+    depends_on:
+      - redis
+      - postgres
+      - api-proxy
+
+  redis:
+    image: redis:latest
+
+  api-proxy:
+    build:
+      context: ./api-proxy
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dbname
