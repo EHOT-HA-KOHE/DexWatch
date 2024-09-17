@@ -1,0 +1,3 @@
+[submodule "submodules/blockchain-listener"]
+	path = submodules/blockchain-listener
+	url = git@github.com:EHOT-HA-KOHE/blockchain-listener-repo.git
