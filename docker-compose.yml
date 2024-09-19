@@ -1,64 +1,67 @@
 version: '3.8'
 
 services:
-  django-app:
-    build:
-      context: ./django-app
-    depends_on:
-      - redis
-      - postgres
-      - api-proxy
+  # django-app:
+  #   build:
+  #     context: ./django-app
+  #   depends_on:
+  #     - redis
+  #     - postgres
+  #     - api-proxy
+  #   environment:
+  #     - DJANGO_SETTINGS_MODULE=myproject.settings
+  #     - REDIS_URL=redis://redis:6379/0
+  #     - DATABASE_URL=postgres://user:password@postgres/dbname
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.2.1
     environment:
-      - DJANGO_SETTINGS_MODULE=myproject.settings
-      - REDIS_URL=redis://redis:6379/0
-      - DATABASE_URL=postgres://user:password@postgres/dbname
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:7.2.1
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    depends_on:
+      - kafka
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
 
   blockchain-listener:
     build:
-      context: ./blockchain-listener
+      context: ./submodules/blockchain-listener
     depends_on:
       - kafka
-
-  kafka:
-    image: wurstmeister/kafka:latest
-    depends_on:
-      - zookeeper
     environment:
-      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://localhost:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
-      KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
-      KAFKA_LISTENER_NAME: INSIDE
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_BROKER_URL: kafka:9092
+    volumes:
+      - ./submodules/blockchain-listener:/app
+    command: python main.py
 
-  zookeeper:
-    image: wurstmeister/zookeeper:latest
+  # redis:
+  #   image: redis:latest
 
-  kafka-consumer:
-    build:
-      context: ./kafka-consumer
-    depends_on:
-      - kafka
-      - redis
-      - api-proxy
-
-  celery-worker:
-    build:
-      context: ./celery-worker
-    depends_on:
-      - redis
-      - postgres
-      - api-proxy
-
-  redis:
-    image: redis:latest
-
-  api-proxy:
-    build:
-      context: ./api-proxy
-
-  postgres:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: dbname
+  # postgres:
+  #   image: postgres:latest
+  #   environment:
+  #     POSTGRES_USER: user
+  #     POSTGRES_PASSWORD: password
+  #     POSTGRES_DB: dbname
