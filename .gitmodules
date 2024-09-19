@@ -1,6 +1,6 @@
 [submodule "submodules/blockchain-listener"]
 	path = submodules/blockchain-listener
 	url = git@github.com:EHOT-HA-KOHE/blockchain-listener-repo.git
-[submodule "submodules/kafka-celery-worker-repo"]
-	path = submodules/kafka-celery-worker-repo
+[submodule "submodules/kafka-celery-worker"]
+	path = submodules/kafka-celery-worker
 	url = git@github.com:EHOT-HA-KOHE/kafka-celery-worker-repo.git
