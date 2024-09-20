@@ -4,3 +4,6 @@
 [submodule "submodules/kafka-celery-worker"]
 	path = submodules/kafka-celery-worker
 	url = git@github.com:EHOT-HA-KOHE/kafka-celery-worker-repo.git
+[submodule "submodules/django-app"]
+	path = submodules/django-app
+	url = git@github.com:EHOT-HA-KOHE/django-app-repo.git
