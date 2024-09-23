@@ -7,3 +7,6 @@
 [submodule "submodules/django-app"]
 	path = submodules/django-app
 	url = git@github.com:EHOT-HA-KOHE/django-app-repo.git
+[submodule "submodules/tg-new-pairs-listener"]
+	path = submodules/tg-new-pairs-listener
+	url = git@github.com:EHOT-HA-KOHE/tg-new-pairs-listener-repo.git
